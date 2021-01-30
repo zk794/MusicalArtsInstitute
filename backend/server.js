@@ -49,10 +49,11 @@ app.use(bodyParser.json());
 
 // setting up database
 // DB Config
-const db = require("./config/keys");
+const URI =
+  "mongodb+srv://firstName:PASSWORD@cluster0.qjuew.mongodb.net/MusicalArtsInstitute?retryWrites=true&w=majority";
 // Connect to MongoDB
 mongoose
-  .connect(db.nick, {
+  .connect(URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
