@@ -3,6 +3,9 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+const passport = require("passport");
+
+const users = require("./routes/users");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -50,7 +53,7 @@ app.use(bodyParser.json());
 // setting up database
 // DB Config
 const URI =
-  "mongodb+srv://firstName:PASSWORD@cluster0.qjuew.mongodb.net/MusicalArtsInstitute?retryWrites=true&w=majority";
+  "mongodb+srv://firstname:password@cluster0.qjuew.mongodb.net/MusicalArtsInstitute?retryWrites=true&w=majority";
 // Connect to MongoDB
 mongoose
   .connect(URI, {
@@ -60,6 +63,14 @@ mongoose
   .then(() => console.log("MongoDB successfully connected"))
   .catch((err) => console.log(err));
 
+// Passport middleware
+app.use(passport.initialize());
+// Passport config
+require("./routes/passport")(passport);
+// Routes
+app.use("/api/users", users);
+
 const port = process.env.PORT || 5000; // process.env.port is Heroku's port if you choose to deploy the app there
 app.listen(port, () => console.log(`Server up and running on port ${port} !`));
 module.exports = app;
+
