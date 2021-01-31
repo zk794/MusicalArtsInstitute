@@ -53,7 +53,7 @@ app.use(bodyParser.json());
 // setting up database
 // DB Config
 const URI =
-  "mongodb+srv://basil:musicalartsinstitute@cluster0.qjuew.mongodb.net/MusicalArtsInstitute?retryWrites=true&w=majority";
+  "mongodb+srv://firstname:password@cluster0.qjuew.mongodb.net/MusicalArtsInstitute?retryWrites=true&w=majority";
 // Connect to MongoDB
 mongoose
   .connect(URI, {
