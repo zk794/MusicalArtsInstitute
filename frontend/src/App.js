@@ -11,7 +11,7 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <Navbar />
+        {/* <Navbar /> */}
         <Switch>
           <Route exact path="/admin" component={Admin} />
           <Route exact path="/student" component={Student} />
