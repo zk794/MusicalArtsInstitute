@@ -7,6 +7,9 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 
 class StudentPage extends Component {
+  handleDateSelect(e) {
+    console.log(e);
+  }
   render() {
     return (
       <Container>
