@@ -8,6 +8,8 @@ import {
   Form,
   Radio,
 } from "semantic-ui-react";
+import { Link } from "react-router-dom";
+import Register from "./components/auth/Register";
 class adminPage extends Component {
   state = { register: false, registerInfo: {} };
 
@@ -74,24 +76,16 @@ class adminPage extends Component {
     );
   }
 
-  renderModal() {
-    return (
-      <Modal
-        size="fullscreen"
-        // style={{ transform: "translate: (50%,0px)" }}
-        centered
-        onClose={() => this.setState({ register: false })}
-        open={this.state.register}
-      >
-        <Modal.Header>Register Account</Modal.Header>
-        <Modal.Content>{this.registrationForm()}</Modal.Content>
-      </Modal>
-    );
+  renderRegister() {
+    if (this.state.register) {
+      return <Register></Register>;
+    } else {
+      return <></>;
+    }
   }
   render() {
     return (
       <>
-        {this.renderModal()}
         <Container>
           <Header textAlign="center" as="h1">
             Admin Page
@@ -99,7 +93,12 @@ class adminPage extends Component {
           <Grid>
             <Grid.Row></Grid.Row>
             <Grid.Row>
-              <Header as="h2">Hello Name!</Header>
+              <Header as="h2">Hello {this.props.name} !</Header>
+            </Grid.Row>
+            <Grid.Row>
+              <Button primary onClick={this.props.onLogoutClick}>
+                Log Out
+              </Button>
             </Grid.Row>
             <Grid.Row>
               <Header as="h3">Here is your donation link:</Header>
@@ -107,10 +106,11 @@ class adminPage extends Component {
             <Grid.Row>
               <Header as="h3">You can also register users here:</Header>
             </Grid.Row>
-            <Button primary onClick={() => this.setState({ register: true })}>
-              Register Users
-            </Button>
+            <Link to="/register">
+              {this.state.register ? "Cancel" : "Register Users"}
+            </Link>
           </Grid>
+          {this.renderRegister()}
         </Container>
       </>
     );
