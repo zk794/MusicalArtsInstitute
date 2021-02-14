@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Header, Grid } from "semantic-ui-react";
+import { Container, Header, Grid, Button } from "semantic-ui-react";
 
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -17,9 +17,13 @@ class StudentPage extends Component {
           Student Page
         </Header>
         <Grid>
-          <Grid.Row></Grid.Row>
           <Grid.Row>
-            <Header as="h2">Hello Name!</Header>
+            <Header as="h2">Hello {this.props.name} !</Header>
+          </Grid.Row>
+          <Grid.Row>
+            <Button primary onClick={this.props.onLogoutClick}>
+              Log Out
+            </Button>
           </Grid.Row>
           <Grid.Row>
             <Header as="h3">

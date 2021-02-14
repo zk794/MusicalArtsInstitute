@@ -16,6 +16,8 @@ const UserSchema = new Schema({
     required: true,
   },
   userRole: { type: String, required: true },
+  childName: { type: String, required: false },
+  childEmail: { type: String, required: false },
   date: {
     type: Date,
     default: Date.now,

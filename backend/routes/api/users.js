@@ -24,16 +24,29 @@ router.post("/register", (req, res) => {
   if (!isValid) {
     return res.status(400).json(errors);
   }
-
+  let childName;
   User.findOne({ email: req.body.email }).then((user) => {
     if (user) {
       return res.status(400).json({ email: "Email already exists" });
     } else {
+      let childEmail = req.body.childEmail;
+
+      if (childEmail) {
+        User.findOne({ email: childEmail }).then((childUser) => {
+          console.log(childUser);
+          childName = childUser.name
+            ? childUser.name
+            : "Child User Does Not Exist";
+        });
+      }
+      console.log("name" + childName);
       const newUser = new User({
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
         userRole: req.body.userRole,
+        childName: childName,
+        childEmail: childEmail,
       });
 
       // Hash password before saving in database
@@ -82,6 +95,9 @@ router.post("/login", (req, res) => {
         const payload = {
           id: user.id,
           name: user.name,
+          userRole: user.userRole,
+          childEmail: user.childEmail,
+          childName: user.childName,
         };
 
         // Sign token
