@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Header, Grid, Button } from "semantic-ui-react";
+import { Container, Header, Grid, Button, Modal } from "semantic-ui-react";
 
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -7,12 +7,25 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 
 class StudentPage extends Component {
+  state = {eventData : {}, open : false}
   handleDateSelect(e) {
     var startd = new Date(e.start)
     var endd = new Date(e.end)
-    let startend = [startd.getTime() / 1000, endd.getTime() / 1000]
-    console.log(startend)
+    const data = {
+      start: startd,
+      end: endd,
+    };
+    this.setState({eventData : data, open : true})
+    console.log(data)
     console.log(e);
+  }
+  handleDateSubmit() {
+    let data = {
+      start : this.state.eventData.start.getTime() / 1000,
+      end: this.state.eventData.end.getTime() / 1000
+    }
+    this.props.addEvent(data);
+    this.setState({eventData = {}, open = false})
   }
   render() {
     return (
@@ -59,9 +72,43 @@ class StudentPage extends Component {
             eventRemove={function(){}}
             */
         />
+        <Modal
+      onClose={() => setOpen(false)}
+      onOpen={() => setOpen(true)}
+      open={this.state.open}
+      
+    >
+      <Modal.Header>Please confirm your date</Modal.Header>
+      <Modal.Content>
+        <Modal.Description>
+          <Header></Header>
+          <p>
+            This is the time that you have selected:
+            start is {this.state.eventData.start}
+            end is {this.state.eventData.end}
+          </p>
+          <p>Is this the time you want?</p>
+        </Modal.Description>
+      </Modal.Content>
+      <Modal.Actions>
+        <Button color='black' onClick={() => this.setState({open:false})}>
+          No
+        </Button>
+        <Button
+          content="Yes"
+          labelPosition='right'
+          onClick={this.handleDateSubmit}
+          positive
+        />
+      </Modal.Actions>
+    </Modal>
       </Container>
     );
   }
 }
 
-export default StudentPage;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  errors: state.errors,
+});
+export default connect(mapStateToProps, { addEvent })(StudentPage);
